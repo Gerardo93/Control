@@ -27,24 +27,27 @@
     </thead>
     <tbody>
     {% for empleado in empleados %}
-    <tr>
-        <td>{{ empleado.clave }}</td>
-        <td>{{ empleado.nombre }} {{ empleado.apellido_paterno }} {{ empleado.apellido_paterno }}</td>
-        <td>{{ empleado.edad }}</td>
-        <td>{{ empleado.fecha_nacimiento|date:'d-m-Y'  }}</td>
-        <td>{{ empleado.salario }}</td>
-        <td>{{ empleado.comentarios }}</td>
-        <td>{% if empleado.activo == 1 %}Activo{% else %}
-            Inactivo desde {{ empleado.fecha_ultima_actividad|date:'d-m-Y' }} a las {{ empleado.fecha_ultima_actividad|time:"H:i" }}{% endif %}</td>
-        <td>
-            {% if empleado.activo == 1 %}
-                <a href="{% url "empleados:empleados_edit" empleado.id %}">Editar</a>
-                <a href="{% url "empleados:empleados_delete" empleado.id %}">Borrar</a></td>
-                {% else %}
-                <a href="{% url "empleados:empleados_delete" empleado.id %}">Activar</a></td>
-            {% endif %}
+        {% if not request.user.is_superuser and empleado.activo == 0 %}
+        {% else %}
+        <tr>
+            <td>{{ empleado.clave }}</td>
+            <td>{{ empleado.nombre }} {{ empleado.apellido_paterno }} {{ empleado.apellido_paterno }}</td>
+            <td>{{ empleado.edad }}</td>
+            <td>{{ empleado.fecha_nacimiento|date:'d-m-Y'  }}</td>
+            <td>{{ empleado.salario }}</td>
+            <td>{{ empleado.comentarios }}</td>
+            <td>{% if empleado.activo == 1 %}Activo{% else %}
+                Inactivo desde {{ empleado.fecha_ultima_actividad|date:'d-m-Y' }} a las {{ empleado.fecha_ultima_actividad|time:"H:i" }}{% endif %}</td>
+            <td>
+                {% if empleado.activo == 1 %}
+                    <a href="{% url "empleados:empleados_edit" empleado.id %}">Editar</a>
+                    <a href="{% url "empleados:empleados_delete" empleado.id %}">Borrar</a></td>
+                    {% else %}
+                    <a href="{% url "empleados:empleados_delete" empleado.id %}">Activar</a></td>
+                {% endif %}
 
-    </tr>
+        </tr>
+        {% endif %}
     {% endfor %}
     </tbody>
     </table>
