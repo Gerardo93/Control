@@ -1,0 +1,11 @@
+.idea/
+.idea/*
+*.pyc
+log/
+log/*
+media/
+media/*
+*.sqlite3
+*.sqlite2
+*.sqlite
+*.db

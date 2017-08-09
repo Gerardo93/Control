@@ -1,0 +1,64 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" id="css-main" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" id="css-main" href="{% static 'bootstrap/css/bootstrap-theme.css' %}">
+    <meta charset="UTF-8">
+    <title>Empleados</title>
+</head>
+<body>
+    <h1>Empleados</h1>
+<ul>
+    {% if request.opcionRender == 1 %}
+        <a href="{% url "empleados:empleados_new" %}">Crear Empleado</a>
+    <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Clave</th>
+        <th>Nombre Completo</th>
+        <th>Edad</th>
+        <th>Fecha de Nacimiento</th>
+        <th>Salario</th>
+        <th>Comentarios</th>
+        <th>Estado</th>
+          <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for empleado in empleados %}
+    <tr>
+        <td>{{ empleado.clave }}</td>
+        <td>{{ empleado.nombre }} {{ empleado.apellido_paterno }} {{ empleado.apellido_paterno }}</td>
+        <td>{{ empleado.edad }}</td>
+        <td>{{ empleado.fecha_nacimiento }}</td>
+        <td>{{ empleado.salario }}</td>
+        <td>{{ empleado.comentarios }}</td>
+        <td>{% if empleado.activo == 1 %}Activo{% else %}Inactivo desde {{ empleado.fecha_ultima_actividad }}{% endif %}</td>
+        <td>
+            {% if empleado.activo == 1 %}
+                <a href="{% url "empleados:empleados_edit" empleado.id %}">Editar</a>
+                <a href="{% url "empleados:empleados_delete" empleado.id %}">Borrar</a></td>
+                {% else %}
+                <a href="{% url "empleados:empleados_delete" empleado.id %}">Activar</a></td>
+            {% endif %}
+
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    {% elif request.opcionRender == 2 %}
+        {{ request.formOpcion }} Empleado
+        <form method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit" />
+        </form>
+    {% elif request.opcionRender == 3 %}
+        <form method="post">{% csrf_token %}
+            ¿ Estas seguro de que quieres {{ request.formOpcion }} a "{{ object.nombre }} {{ object.apellido_paterno }} {{ object.apellido_materno }}"?
+            <input type="submit" value="{{ request.formOpcionB }}" />
+        </form>
+    {% endif %}
+</ul>
+</body>
+</html>
