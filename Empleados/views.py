@@ -36,7 +36,6 @@ campos = ['clave',
           'edad',
           'salario',
           'comentarios',
-          'activo'
           ]
 class EmpleadosCreate(CreateView):
     model = Empleado
@@ -80,7 +79,10 @@ class EmpleadosDelete(DeleteView):
             request.formOpcionB = 'Restaurar'
         request.opcionRender = 3
         context = self.get_context_data(object=self.object)
-        return self.render_to_response(context)
+        if request.user.is_superuser:
+            return self.render_to_response(context)
+        else:
+            return HttpResponseRedirect(self.success_url)
 
     def post(self, request, *args, **kwargs):
         """

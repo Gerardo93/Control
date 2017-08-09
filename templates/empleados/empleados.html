@@ -41,11 +41,11 @@
             <td>
                 {% if empleado.activo == 1 %}
                     <a href="{% url "empleados:empleados_edit" empleado.id %}">Editar</a>
-                    {% if not request.user.is_superuser %}
+                    {% if request.user.is_superuser %}
                     <a href="{% url "empleados:empleados_delete" empleado.id %}">Borrar</a></td>
                     {% endif %}
                     {% else %}
-                    {% if not request.user.is_superuser %}
+                    {% if request.user.is_superuser %}
                     <a href="{% url "empleados:empleados_delete" empleado.id %}">Activar</a></td>
                     {% endif %}
                 {% endif %}
