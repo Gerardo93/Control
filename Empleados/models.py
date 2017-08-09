@@ -15,4 +15,4 @@ class Empleado(models.Model):
     salario = models.FloatField()
     comentarios = models.CharField(max_length=1000)
     activo = models.IntegerField(default=1)
-    fecha_ultima_actividad = models.DateField(null=True, blank=True)
+    fecha_ultima_actividad = models.DateTimeField(null=True, blank=True)

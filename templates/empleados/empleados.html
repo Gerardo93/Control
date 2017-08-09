@@ -31,10 +31,11 @@
         <td>{{ empleado.clave }}</td>
         <td>{{ empleado.nombre }} {{ empleado.apellido_paterno }} {{ empleado.apellido_paterno }}</td>
         <td>{{ empleado.edad }}</td>
-        <td>{{ empleado.fecha_nacimiento }}</td>
+        <td>{{ empleado.fecha_nacimiento|date:'d-m-Y'  }}</td>
         <td>{{ empleado.salario }}</td>
         <td>{{ empleado.comentarios }}</td>
-        <td>{% if empleado.activo == 1 %}Activo{% else %}Inactivo desde {{ empleado.fecha_ultima_actividad }}{% endif %}</td>
+        <td>{% if empleado.activo == 1 %}Activo{% else %}
+            Inactivo desde {{ empleado.fecha_ultima_actividad|date:'d-m-Y' }} a las {{ empleado.fecha_ultima_actividad|time:"H:i" }}{% endif %}</td>
         <td>
             {% if empleado.activo == 1 %}
                 <a href="{% url "empleados:empleados_edit" empleado.id %}">Editar</a>
